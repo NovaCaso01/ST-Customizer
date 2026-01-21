@@ -1,0 +1,1202 @@
+/* =====================================================
+   ST Customizer - 클린 라이트 모노톤 UI
+   ===================================================== */
+
+/* =====================================================
+   웹폰트 정의
+   ===================================================== */
+
+/* 페이퍼로지 */
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-display: swap;
+}
+
+/* 리디바탕 */
+@font-face {
+    font-family: 'Ridibatang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 부크크명조 */
+@font-face {
+    font-family: 'BookkMyungjo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Lt.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BookkMyungjo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+/* 온글잎 콘콘체 */
+@font-face {
+    font-family: 'OngleipKonkon';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2412-1@1.0/Ownglyph_corncorn-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 오뮤 다예쁨체 */
+@font-face {
+    font-family: 'OmuDaye';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 학교안심 날개 */
+@font-face {
+    font-family: 'SchoolSafetyWing';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/HakgyoansimNalgaeR.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 학교안심 그림일기 */
+@font-face {
+    font-family: 'SchoolSafetyPictureDiary';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimGeurimilgiTTF-R.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 이서윤체 */
+@font-face {
+    font-family: 'IsYun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 둥근모꼴 */
+@font-face {
+    font-family: 'RoundedFixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 얇은둥근모 */
+@font-face {
+    font-family: 'ThinRounded';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/ThinDungGeunMo.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 물마루 */
+@font-face {
+    font-family: 'Mulmaru';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-4@1.1/Mulmaru.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 기본 변수 - 라이트 테마 */
+:root {
+    --stc-bg: #f8f8f8;
+    --stc-bg-light: #ffffff;
+    --stc-bg-dark: #eeeeee;
+    --stc-border: #d0d0d0;
+    --stc-text: #333333;
+    --stc-text-muted: #666666;
+    --stc-accent: #505050;
+    --stc-hover: #e8e8e8;
+    --stc-radius: 6px;
+}
+
+/* =====================================================
+   설정 패널 UI
+   ===================================================== */
+
+#st-customizer-settings {
+    /* 폰트 강제 금지 - 상속 사용 */
+}
+
+/* FontAwesome 아이콘 및 미리보기 영역 제외하고 폰트 상속 */
+#st-customizer-settings *:not([class*="fa-"]):not(.inline-drawer-icon):not(.stc-typing-preview-box):not(.stc-typing-preview-box *) {
+    font-family: inherit !important;
+}
+
+/* 섹션 */
+#st-customizer-settings .stc-section {
+    margin-bottom: 12px;
+    padding: 14px;
+    background: var(--stc-bg);
+    border: 1px solid var(--stc-border);
+    border-radius: var(--stc-radius);
+}
+
+/* 섹션 헤더 */
+#st-customizer-settings .stc-section h5 {
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--stc-border);
+    color: var(--stc-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* 설정 행 */
+#st-customizer-settings .stc-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0;
+}
+
+#st-customizer-settings .stc-row label:first-child {
+    min-width: 100px;
+    color: var(--stc-text-muted);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* 텍스트 인풋 */
+#st-customizer-settings .stc-row input[type="text"],
+#st-customizer-settings .stc-row input[type="number"],
+#st-customizer-settings .stc-row select {
+    flex: 1;
+    max-width: 220px;
+    padding: 8px 12px;
+    background: var(--stc-bg-light);
+    border: 1px solid var(--stc-border);
+    border-radius: var(--stc-radius);
+    color: var(--stc-text);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#st-customizer-settings .stc-row input[type="text"]:focus,
+#st-customizer-settings .stc-row select:focus {
+    border-color: var(--stc-accent);
+}
+
+/* 셀렉트 */
+#st-customizer-settings .stc-row select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+
+/* =====================================================
+   ON/OFF 버튼 (체크박스 대체)
+   ===================================================== */
+#st-customizer-settings .stc-row input[type="checkbox"] {
+    display: none !important;
+}
+
+#st-customizer-settings .stc-onoff-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 5px 12px;
+    border-radius: var(--stc-radius);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--stc-border);
+    background: var(--stc-bg-light);
+    color: var(--stc-text-muted);
+}
+
+#st-customizer-settings .stc-onoff-btn::before {
+    content: 'OFF';
+}
+
+#st-customizer-settings input[type="checkbox"]:checked + .stc-onoff-btn {
+    background: var(--stc-accent);
+    border-color: var(--stc-accent);
+    color: white;
+}
+
+#st-customizer-settings input[type="checkbox"]:checked + .stc-onoff-btn::before {
+    content: 'ON';
+}
+
+/* 타이핑 효과 토글 버튼 */
+#st-customizer-settings .stc-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 5px 12px;
+    border-radius: var(--stc-radius);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--stc-border);
+    background: var(--stc-bg-light);
+    color: var(--stc-text-muted);
+}
+
+#st-customizer-settings .stc-toggle-btn.active {
+    background: var(--stc-accent);
+    border-color: var(--stc-accent);
+    color: white;
+}
+
+/* 레인지 슬라이더 */
+#st-customizer-settings .stc-row input[type="range"] {
+    flex: 1;
+    max-width: 120px;
+    height: 6px !important;
+    background: var(--stc-border) !important;
+    border-radius: 3px !important;
+    outline: none !important;
+    cursor: pointer;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#st-customizer-settings .stc-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: var(--stc-accent) !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    border: 2px solid white !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+    margin-top: -5px !important;
+}
+
+#st-customizer-settings .stc-row input[type="range"]::-moz-range-thumb {
+    width: 16px !important;
+    height: 16px !important;
+    background: var(--stc-accent) !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    border: 2px solid white !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+}
+
+#st-customizer-settings .stc-row input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px !important;
+    background: var(--stc-border) !important;
+    border-radius: 3px !important;
+}
+
+/* 컬러 인풋 */
+#st-customizer-settings input[type="color"] {
+    width: 36px;
+    height: 28px;
+    padding: 2px;
+    background: var(--stc-bg-light);
+    border: 1px solid var(--stc-border);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 컬러 라벨 */
+#st-customizer-settings .stc-color-label {
+    font-size: 11px;
+    color: var(--stc-text-muted);
+    min-width: 60px;
+}
+
+/* =====================================================
+   버튼 스타일
+   ===================================================== */
+#st-customizer-settings .stc-file-btn,
+#st-customizer-settings .stc-reset-btn,
+#st-customizer-settings .stc-test-btn {
+    display: inline-flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 14px;
+    min-width: auto;
+    height: auto;
+    background: var(--stc-bg-light);
+    border: 1px solid var(--stc-border);
+    border-radius: var(--stc-radius);
+    color: var(--stc-text);
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#st-customizer-settings .stc-file-btn:hover,
+#st-customizer-settings .stc-reset-btn:hover,
+#st-customizer-settings .stc-test-btn:hover {
+    background: var(--stc-hover);
+    border-color: var(--stc-accent);
+}
+
+#st-customizer-settings .stc-reset-btn {
+    color: var(--stc-text-muted);
+}
+
+/* 정보 박스 */
+#st-customizer-settings .stc-info {
+    padding: 8px 12px;
+    margin: 8px 0;
+    background: var(--stc-bg-dark);
+    border-radius: var(--stc-radius);
+    border-left: 2px solid var(--stc-border);
+}
+
+#st-customizer-settings .stc-info small {
+    color: var(--stc-text-muted);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* 미리보기 박스 */
+#st-customizer-settings .stc-preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    margin: 8px 0;
+    background: var(--stc-bg-dark);
+    border: 1px solid var(--stc-border);
+    border-radius: var(--stc-radius);
+}
+
+#st-customizer-settings .stc-preview img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: transparent;
+}
+
+#st-customizer-settings .stc-preview-text {
+    color: var(--stc-text-muted);
+    font-size: 12px;
+}
+
+/* 서브섹션 */
+#st-customizer-settings .stc-subsection {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--stc-bg-dark);
+    border-radius: var(--stc-radius);
+    border: 1px solid var(--stc-border);
+}
+
+/* 타이핑 미리보기 박스 */
+#st-customizer-settings .stc-typing-preview-box {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--stc-bg-dark);
+    border: 1px solid var(--stc-border);
+    border-radius: var(--stc-radius);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =====================================================
+   타이핑 인디케이터 (채팅창)
+   ===================================================== */
+
+#stc_typing_indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 모바일 타이핑 인디케이터 중앙 정렬 */
+@media screen and (max-width: 1000px) {
+    #stc_typing_indicator {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        padding: 12px 8px !important;
+    }
+    
+    #stc_typing_indicator > div {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+        max-width: 100% !important;
+    }
+}
+
+#stc_typing_indicator .stc-text {
+    color: var(--SmartThemeBodyColor, #333333);
+    font-size: 14px;
+}
+
+/* =====================================================
+   타자기 효과 애니메이션
+   ===================================================== */
+.stc-typewriter {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.stc-typewriter-char {
+    display: inline-block;
+    opacity: 0;
+    animation: stc-typewriter-appear 0.1s forwards;
+}
+
+@keyframes stc-typewriter-appear {
+    from { opacity: 0; transform: translateY(2px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   스타일: Fade
+   ===================================================== */
+.stc-typing-fade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stc-typing-fade .stc-text {
+    color: inherit !important;
+    animation: stc-fade-pulse 2s ease-in-out infinite;
+}
+
+@keyframes stc-fade-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+/* =====================================================
+   스타일: Heart
+   ===================================================== */
+.stc-typing-heart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.stc-typing-heart .stc-heart {
+    color: #e86090 !important;
+    font-size: 14px;
+    animation: stc-heart-beat 0.8s ease-in-out infinite;
+}
+
+.stc-typing-heart .stc-heart:nth-child(1) { animation-delay: 0s; }
+.stc-typing-heart .stc-heart:nth-child(2) { animation-delay: 0.2s; }
+.stc-typing-heart .stc-heart:nth-child(3) { animation-delay: 0.4s; }
+
+.stc-typing-heart .stc-text {
+    margin-left: 4px;
+    color: #c05070 !important;
+}
+
+@keyframes stc-heart-beat {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* =====================================================
+   스타일: Star
+   ===================================================== */
+.stc-typing-star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.stc-typing-star .stc-star {
+    color: #d4a020 !important;
+    font-size: 14px;
+    animation: stc-star-twinkle 1s ease-in-out infinite;
+}
+
+.stc-typing-star .stc-star:nth-child(1) { animation-delay: 0s; }
+.stc-typing-star .stc-star:nth-child(2) { animation-delay: 0.33s; }
+.stc-typing-star .stc-star:nth-child(3) { animation-delay: 0.66s; }
+
+.stc-typing-star .stc-text {
+    margin-left: 4px;
+    color: #a08020 !important;
+}
+
+@keyframes stc-star-twinkle {
+    0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.4; }
+    50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+}
+
+/* =====================================================
+   스타일: 커스텀
+   ===================================================== */
+.stc-typing-custom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 16px;
+    background: transparent !important;
+    border: none !important;
+}
+
+.stc-typing-custom .stc-gif-outside {
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.stc-typing-custom .stc-content-box {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 12px;
+}
+
+.stc-typing-custom .stc-text {
+    font-size: 13px;
+}
+
+/* =====================================================
+   GIF 스타일 공통 - 이미지 분리 레이아웃
+   ===================================================== */
+.stc-typing-cinnamoroll,
+.stc-typing-mymelody,
+.stc-typing-hellokitty,
+.stc-typing-hellokittypencil,
+.stc-typing-pikachu,
+.stc-typing-blackcat,
+.stc-typing-whitecat,
+.stc-typing-whitecatcute,
+.stc-typing-siamesecat,
+.stc-typing-blackpinkcat,
+.stc-typing-cushioncat,
+.stc-typing-puddingcat,
+.stc-typing-breadcat,
+.stc-typing-laptopcat,
+.stc-typing-whiterabbit,
+.stc-typing-brownrabbit,
+.stc-typing-pinkpanda,
+.stc-typing-chocomilk,
+.stc-typing-strawberrymilk,
+.stc-typing-pinkribbon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 16px;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* GIF 이미지 */
+.stc-typing-cinnamoroll .stc-gif-outside,
+.stc-typing-mymelody .stc-gif-outside,
+.stc-typing-hellokitty .stc-gif-outside,
+.stc-typing-hellokittypencil .stc-gif-outside,
+.stc-typing-pikachu .stc-gif-outside,
+.stc-typing-blackcat .stc-gif-outside,
+.stc-typing-whitecat .stc-gif-outside,
+.stc-typing-whitecatcute .stc-gif-outside,
+.stc-typing-siamesecat .stc-gif-outside,
+.stc-typing-blackpinkcat .stc-gif-outside,
+.stc-typing-cushioncat .stc-gif-outside,
+.stc-typing-puddingcat .stc-gif-outside,
+.stc-typing-whiterabbit .stc-gif-outside,
+.stc-typing-brownrabbit .stc-gif-outside,
+.stc-typing-pinkpanda .stc-gif-outside,
+.stc-typing-chocomilk .stc-gif-outside,
+.stc-typing-strawberrymilk .stc-gif-outside,
+.stc-typing-pinkribbon .stc-gif-outside {
+    width: 45px !important;
+    height: 45px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* 큰 이미지 스타일 */
+.stc-typing-breadcat .stc-gif-outside,
+.stc-typing-laptopcat .stc-gif-outside {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* 텍스트 컨테이너 공통 */
+.stc-typing-cinnamoroll .stc-content-box,
+.stc-typing-mymelody .stc-content-box,
+.stc-typing-hellokitty .stc-content-box,
+.stc-typing-hellokittypencil .stc-content-box,
+.stc-typing-pikachu .stc-content-box,
+.stc-typing-blackcat .stc-content-box,
+.stc-typing-whitecat .stc-content-box,
+.stc-typing-whitecatcute .stc-content-box,
+.stc-typing-siamesecat .stc-content-box,
+.stc-typing-blackpinkcat .stc-content-box,
+.stc-typing-cushioncat .stc-content-box,
+.stc-typing-puddingcat .stc-content-box,
+.stc-typing-breadcat .stc-content-box,
+.stc-typing-laptopcat .stc-content-box,
+.stc-typing-whiterabbit .stc-content-box,
+.stc-typing-brownrabbit .stc-content-box,
+.stc-typing-pinkpanda .stc-content-box,
+.stc-typing-chocomilk .stc-content-box,
+.stc-typing-strawberrymilk .stc-content-box,
+.stc-typing-pinkribbon .stc-content-box {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 12px;
+}
+
+/* =====================================================
+   GIF 스타일별 색상
+   ===================================================== */
+
+/* 시나모롤 */
+.stc-typing-cinnamoroll .stc-content-box {
+    background: rgba(180, 210, 235, 0.7);
+    border: 1px solid rgba(160, 200, 230, 0.5);
+}
+.stc-typing-cinnamoroll .stc-text { color: #4a7090 !important; font-size: 13px; }
+
+/* 마이멜로디 */
+.stc-typing-mymelody .stc-content-box {
+    background: rgba(255, 210, 220, 0.7);
+    border: 1px solid rgba(235, 180, 195, 0.5);
+}
+.stc-typing-mymelody .stc-text { color: #905560 !important; font-size: 13px; }
+
+/* 헬로키티 */
+.stc-typing-hellokitty .stc-content-box {
+    background: rgba(255, 200, 215, 0.7);
+    border: 1px solid rgba(235, 170, 190, 0.5);
+}
+.stc-typing-hellokitty .stc-text { color: #905060 !important; font-size: 13px; }
+
+/* 헬로키티연필 */
+.stc-typing-hellokittypencil .stc-content-box {
+    background: rgba(255, 205, 215, 0.7);
+    border: 1px solid rgba(235, 175, 190, 0.5);
+}
+.stc-typing-hellokittypencil .stc-text { color: #905565 !important; font-size: 13px; }
+
+/* 피카츄 */
+.stc-typing-pikachu .stc-content-box {
+    background: rgba(250, 230, 160, 0.7);
+    border: 1px solid rgba(230, 200, 120, 0.5);
+}
+.stc-typing-pikachu .stc-text { color: #806520 !important; font-size: 13px; }
+
+/* 검은고양이 */
+.stc-typing-blackcat .stc-content-box {
+    background: rgba(60, 60, 80, 0.75);
+    border: 1px solid rgba(80, 80, 100, 0.5);
+}
+.stc-typing-blackcat .stc-text { color: #b0b0c0 !important; font-size: 13px; }
+
+/* 흰고양이 */
+.stc-typing-whitecat .stc-content-box {
+    background: rgba(255, 230, 235, 0.7);
+    border: 1px solid rgba(235, 190, 200, 0.5);
+}
+.stc-typing-whitecat .stc-text { color: #906060 !important; font-size: 13px; }
+
+/* 귀여운흰고양이 */
+.stc-typing-whitecatcute .stc-content-box {
+    background: rgba(250, 250, 250, 0.7);
+    border: 1px solid rgba(220, 220, 220, 0.5);
+}
+.stc-typing-whitecatcute .stc-text { color: #555555 !important; font-size: 13px; }
+
+/* 샴고양이 */
+.stc-typing-siamesecat .stc-content-box {
+    background: rgba(245, 235, 220, 0.7);
+    border: 1px solid rgba(225, 210, 190, 0.5);
+}
+.stc-typing-siamesecat .stc-text { color: #6a5a45 !important; font-size: 13px; }
+
+/* 핑크검은고양이 */
+.stc-typing-blackpinkcat .stc-content-box {
+    background: rgba(255, 200, 210, 0.7);
+    border: 1px solid rgba(235, 170, 185, 0.5);
+}
+.stc-typing-blackpinkcat .stc-text { color: #804555 !important; font-size: 13px; }
+
+/* 쿠션고양이 */
+.stc-typing-cushioncat .stc-content-box {
+    background: rgba(255, 220, 190, 0.7);
+    border: 1px solid rgba(235, 190, 150, 0.5);
+}
+.stc-typing-cushioncat .stc-text { color: #8a6040 !important; font-size: 13px; }
+
+/* 푸딩고양이 */
+.stc-typing-puddingcat .stc-content-box {
+    background: rgba(255, 235, 180, 0.7);
+    border: 1px solid rgba(235, 210, 145, 0.5);
+}
+.stc-typing-puddingcat .stc-text { color: #7a6530 !important; font-size: 13px; }
+
+/* 반죽고양이 */
+.stc-typing-breadcat .stc-content-box {
+    background: rgba(230, 205, 175, 0.7);
+    border: 1px solid rgba(210, 180, 145, 0.5);
+}
+.stc-typing-breadcat .stc-text { color: #705535 !important; font-size: 13px; }
+
+/* 노트북고양이 */
+.stc-typing-laptopcat .stc-content-box {
+    background: rgba(255, 210, 220, 0.7);
+    border: 1px solid rgba(235, 180, 195, 0.5);
+}
+.stc-typing-laptopcat .stc-text { color: #855055 !important; font-size: 13px; }
+
+/* 흰토끼 */
+.stc-typing-whiterabbit .stc-content-box {
+    background: rgba(255, 235, 240, 0.7);
+    border: 1px solid rgba(230, 200, 215, 0.5);
+}
+.stc-typing-whiterabbit .stc-text { color: #706065 !important; font-size: 13px; }
+
+/* 브라운토끼 */
+.stc-typing-brownrabbit .stc-content-box {
+    background: rgba(220, 195, 165, 0.7);
+    border: 1px solid rgba(200, 170, 135, 0.5);
+}
+.stc-typing-brownrabbit .stc-text { color: #6a5035 !important; font-size: 13px; }
+
+/* 핑크판다 */
+.stc-typing-pinkpanda .stc-content-box {
+    background: rgba(255, 200, 210, 0.7);
+    border: 1px solid rgba(235, 170, 185, 0.5);
+}
+.stc-typing-pinkpanda .stc-text { color: #855060 !important; font-size: 13px; }
+
+/* 초코우유 */
+.stc-typing-chocomilk .stc-content-box {
+    background: rgba(200, 170, 145, 0.7);
+    border: 1px solid rgba(180, 145, 115, 0.5);
+}
+.stc-typing-chocomilk .stc-text { color: #5a4530 !important; font-size: 13px; }
+
+/* 딸기우유 */
+.stc-typing-strawberrymilk .stc-content-box {
+    background: rgba(255, 200, 210, 0.7);
+    border: 1px solid rgba(235, 170, 185, 0.5);
+}
+.stc-typing-strawberrymilk .stc-text { color: #854a55 !important; font-size: 13px; }
+
+/* 핑크리본 */
+.stc-typing-pinkribbon .stc-content-box {
+    background: rgba(255, 195, 210, 0.7);
+    border: 1px solid rgba(235, 165, 185, 0.5);
+}
+.stc-typing-pinkribbon .stc-text { color: #904a58 !important; font-size: 13px; }
+
+/* =====================================================
+   크리스탈 스타일
+   ===================================================== */
+.stc-typing-crystal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 25px;
+    background: radial-gradient(circle at 50% 50%, rgba(200, 220, 235, 0.55) 0%, rgba(220, 235, 245, 0.45) 70%);
+    box-shadow: 0 4px 15px rgba(150, 180, 210, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(180, 200, 220, 0.5);
+}
+
+.stc-typing-crystal .stc-crystal-deco {
+    color: #6a9ab8 !important;
+    font-size: 14px;
+    animation: stc-crystal-shine 2s ease-in-out infinite;
+}
+.stc-typing-crystal .stc-crystal-deco:last-child { animation-delay: 1s; }
+.stc-typing-crystal .stc-text { color: #4a6580 !important; font-size: 14px; }
+
+@keyframes stc-crystal-shine {
+    0%, 100% { opacity: 0.5; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* 크리스탈 핑크 */
+.stc-typing-crystal.stc-typing-crystal-pink {
+    background: radial-gradient(circle at 50% 50%, rgba(235, 200, 210, 0.55) 0%, rgba(245, 220, 230, 0.45) 70%);
+    box-shadow: 0 4px 15px rgba(200, 150, 170, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(220, 180, 195, 0.5);
+}
+.stc-typing-crystal.stc-typing-crystal-pink .stc-crystal-deco { color: #b87090 !important; }
+.stc-typing-crystal.stc-typing-crystal-pink .stc-text { color: #805565 !important; }
+
+/* 크리스탈 민트 */
+.stc-typing-crystal.stc-typing-crystal-mint {
+    background: radial-gradient(circle at 50% 50%, rgba(190, 225, 210, 0.55) 0%, rgba(210, 235, 225, 0.45) 70%);
+    box-shadow: 0 4px 15px rgba(140, 180, 165, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(170, 205, 190, 0.5);
+}
+.stc-typing-crystal.stc-typing-crystal-mint .stc-crystal-deco { color: #5a9a85 !important; }
+.stc-typing-crystal.stc-typing-crystal-mint .stc-text { color: #456560 !important; }
+
+/* 크리스탈 퍼플 */
+.stc-typing-crystal.stc-typing-crystal-purple {
+    background: radial-gradient(circle at 50% 50%, rgba(210, 200, 225, 0.55) 0%, rgba(225, 215, 235, 0.45) 70%);
+    box-shadow: 0 4px 15px rgba(160, 140, 190, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(190, 180, 210, 0.5);
+}
+.stc-typing-crystal.stc-typing-crystal-purple .stc-crystal-deco { color: #9080a8 !important; }
+.stc-typing-crystal.stc-typing-crystal-purple .stc-text { color: #5a4a70 !important; }
+
+/* 크리스탈 골드 */
+.stc-typing-crystal.stc-typing-crystal-gold {
+    background: radial-gradient(circle at 50% 50%, rgba(235, 220, 190, 0.55) 0%, rgba(245, 235, 210, 0.45) 70%);
+    box-shadow: 0 4px 15px rgba(190, 170, 130, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(215, 200, 170, 0.5);
+}
+.stc-typing-crystal.stc-typing-crystal-gold .stc-crystal-deco { color: #a89060 !important; }
+.stc-typing-crystal.stc-typing-crystal-gold .stc-text { color: #6a5a40 !important; }
+
+/* =====================================================
+   하트비트 스타일
+   ===================================================== */
+.stc-typing-heartbeat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 25px;
+}
+
+.stc-typing-heartbeat .stc-heartbeat-line {
+    width: 100%;
+    max-width: 220px;
+}
+
+.stc-typing-heartbeat .stc-heartbeat-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.stc-typing-heartbeat .stc-heartbeat-path {
+    fill: none;
+    stroke: #ff69b4;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    filter: drop-shadow(0 0 3px #ff69b4);
+    animation: stc-heart-draw 3s ease-in-out infinite, stc-heart-glow 1.5s infinite alternate;
+}
+
+.stc-typing-heartbeat .stc-text {
+    color: #ff69b4 !important;
+    font-size: 13px;
+    text-shadow: 0 0 5px #ff69b4, 0 0 10px rgba(255, 105, 180, 0.5);
+    animation: stc-heartbeat-text-fade 3s ease-in-out infinite;
+}
+
+@keyframes stc-heart-draw {
+    0% { stroke-dashoffset: 500; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes stc-heart-glow {
+    from { stroke-width: 2; filter: drop-shadow(0 0 2px #ff69b4) drop-shadow(0 0 4px #ff1493); }
+    to { stroke-width: 2.5; filter: drop-shadow(0 0 4px #ff69b4) drop-shadow(0 0 8px #ff1493); }
+}
+
+@keyframes stc-heartbeat-text-fade {
+    0%, 20% { opacity: 0; }
+    40%, 100% { opacity: 1; }
+}
+
+/* 하트비트 진한회색 */
+.stc-typing-heartbeat.stc-typing-heartbeat-gray .stc-heartbeat-path {
+    stroke: #5a5a5a;
+    filter: drop-shadow(0 0 3px #5a5a5a);
+    animation: stc-heart-draw 3s ease-in-out infinite, stc-heart-glow-gray 1.5s infinite alternate;
+}
+.stc-typing-heartbeat.stc-typing-heartbeat-gray .stc-text {
+    color: #5a5a5a !important;
+    text-shadow: 0 0 5px #5a5a5a, 0 0 10px rgba(90, 90, 90, 0.5);
+}
+
+@keyframes stc-heart-glow-gray {
+    from { stroke-width: 2; filter: drop-shadow(0 0 2px #5a5a5a) drop-shadow(0 0 4px #4a4a4a); }
+    to { stroke-width: 2.5; filter: drop-shadow(0 0 4px #5a5a5a) drop-shadow(0 0 8px #4a4a4a); }
+}
+
+/* 하트비트 흰색 */
+.stc-typing-heartbeat.stc-typing-heartbeat-white .stc-heartbeat-path {
+    stroke: #f0f0f0;
+    filter: drop-shadow(0 0 3px #ffffff);
+    animation: stc-heart-draw 3s ease-in-out infinite, stc-heart-glow-white 1.5s infinite alternate;
+}
+.stc-typing-heartbeat.stc-typing-heartbeat-white .stc-text {
+    color: #f0f0f0 !important;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes stc-heart-glow-white {
+    from { stroke-width: 2; filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 4px #e0e0e0); }
+    to { stroke-width: 2.5; filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 8px #e0e0e0); }
+}
+
+/* 하트비트 라벤더 */
+.stc-typing-heartbeat.stc-typing-heartbeat-lavender .stc-heartbeat-path {
+    stroke: #b19cd9;
+    filter: drop-shadow(0 0 3px #b19cd9);
+    animation: stc-heart-draw 3s ease-in-out infinite, stc-heart-glow-lavender 1.5s infinite alternate;
+}
+.stc-typing-heartbeat.stc-typing-heartbeat-lavender .stc-text {
+    color: #b19cd9 !important;
+    text-shadow: 0 0 5px #b19cd9, 0 0 10px rgba(177, 156, 217, 0.5);
+}
+
+@keyframes stc-heart-glow-lavender {
+    from { stroke-width: 2; filter: drop-shadow(0 0 2px #b19cd9) drop-shadow(0 0 4px #9370db); }
+    to { stroke-width: 2.5; filter: drop-shadow(0 0 4px #b19cd9) drop-shadow(0 0 8px #9370db); }
+}
+
+/* =====================================================
+   픽셀 컴퓨터 스타일
+   ===================================================== */
+.stc-typing-pixelpc {
+    --stc-pc-light-gray: #d6d2c8;
+    --stc-pc-dark-gray: #55524e;
+    --stc-pc-gray: #9b9484;
+    --stc-pc-dark-blue: #2b293e;
+    --stc-pc-light-blue: #35b7da;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+}
+
+.stc-typing-pixelpc .stc-pixelpc {
+    position: relative;
+    width: 102px;
+    height: 90px;
+    background:
+        /* Bottom Section */
+        repeating-linear-gradient(90deg, var(--stc-pc-gray) 0 3px, var(--stc-pc-light-gray) 3px 5.4px) 77.4px 70.8px / 19.2px 3px,
+        repeating-linear-gradient(90deg, var(--stc-pc-dark-gray) 0 3px, var(--stc-pc-light-gray) 3px 5.4px) 77.4px 73.8px / 19.2px 11.4px,
+        linear-gradient(var(--stc-pc-dark-gray), var(--stc-pc-dark-gray)) 49.8px 79.2px / 3px 4.2px,
+        linear-gradient(var(--stc-pc-light-gray) 3px, var(--stc-pc-dark-gray) 3px) 43.2px 74.4px / 24px 6px,
+        linear-gradient(90deg, var(--stc-pc-dark-gray) 3px, var(--stc-pc-gray) 3px) 37.2px 70.8px / 33px 14.4px,
+        linear-gradient(90deg, var(--stc-pc-gray) 3px, var(--stc-pc-light-gray) 3px) 27px 69px / 75px 18px,
+        linear-gradient(90deg, var(--stc-pc-gray) 3px, var(--stc-pc-light-gray) 3px) 30px 66px / 72px 24px,
+        linear-gradient(var(--stc-pc-dark-gray), var(--stc-pc-dark-gray)) 3px 66px / 99px 24px,
+        linear-gradient(var(--stc-pc-dark-gray), var(--stc-pc-dark-gray)) 0px 69px / 96px 21px,
+        
+        /* Top Section */
+        linear-gradient(90deg, var(--stc-pc-gray) 5.4px, var(--stc-pc-light-gray) 5.4px 7.8px, var(--stc-pc-gray) 7.8px 10.8px, var(--stc-pc-dark-gray) 10.8px 36.6px, var(--stc-pc-light-gray) 36.6px 48px, var(--stc-pc-gray) 48px) 36px 54px / 51px 3px,
+        linear-gradient(var(--stc-pc-gray) 3px, var(--stc-pc-dark-blue) 3px 45px, var(--stc-pc-gray) 45px) 39px 3px / 45px 48px,
+        linear-gradient(90deg, var(--stc-pc-gray) 3px, var(--stc-pc-dark-blue) 3px 54px, var(--stc-pc-gray) 54px) 33px 9px / 57px 36px,
+        linear-gradient(var(--stc-pc-gray), var(--stc-pc-gray)) 36px 6px / 51px 42px,
+        linear-gradient(var(--stc-pc-light-gray), var(--stc-pc-light-gray)) 33px 0px / 57px 60px,
+        linear-gradient(90deg, var(--stc-pc-gray) 3px, var(--stc-pc-light-gray) 3px) 27px 3px / 66px 54px,
+        linear-gradient(var(--stc-pc-gray), var(--stc-pc-gray)) 30px 0px / 60px 60px,
+        linear-gradient(var(--stc-pc-dark-gray), var(--stc-pc-dark-gray)) 12px 0px / 78px 60px,
+        linear-gradient(90deg, var(--stc-pc-dark-gray) 50%, var(--stc-pc-light-gray) 50%) 9px 3px / 84px 54px,
+
+        /* Back section */
+        linear-gradient(90deg, var(--stc-pc-dark-gray) 28.8px, var(--stc-pc-gray) 28.8px) 21px 63px / 64.8px 4.2px,
+        linear-gradient(var(--stc-pc-dark-gray), var(--stc-pc-dark-gray)) 27px 57px / 53.4px 9px;
+    background-repeat: no-repeat;
+}
+
+/* 픽셀 하트 (화면 중앙에 표시) */
+.stc-typing-pixelpc .stc-pixelpc::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    top: 20px;
+    left: 57px;
+    background-color: var(--stc-pc-light-blue);
+    animation: stc-pixelpc-heart 1.5s ease-in-out infinite;
+}
+
+/* 픽셀 스타일 텍스트 컨테이너 */
+.stc-typing-pixelpc .stc-pixel-textbox {
+    display: inline-block;
+    padding: 6px 12px;
+    background: var(--stc-pc-dark-gray);
+    border: 2px solid var(--stc-pc-gray);
+    image-rendering: pixelated;
+    box-shadow: 
+        2px 0 0 var(--stc-pc-light-gray),
+        -2px 0 0 var(--stc-pc-light-gray),
+        0 2px 0 var(--stc-pc-light-gray),
+        0 -2px 0 var(--stc-pc-light-gray);
+}
+
+.stc-typing-pixelpc .stc-text {
+    color: var(--stc-pc-light-gray) !important;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* 픽셀 하트 애니메이션 - 귀여운 작은 하트 */
+@keyframes stc-pixelpc-heart {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 
+            /* 귀여운 작은 하트 모양 (3x3 기반) */
+            0px 0px 0 var(--stc-pc-light-blue),
+            6px 0px 0 var(--stc-pc-light-blue),
+            -3px 3px 0 var(--stc-pc-light-blue),
+            0px 3px 0 var(--stc-pc-light-blue),
+            3px 3px 0 var(--stc-pc-light-blue),
+            6px 3px 0 var(--stc-pc-light-blue),
+            9px 3px 0 var(--stc-pc-light-blue),
+            -3px 6px 0 var(--stc-pc-light-blue),
+            0px 6px 0 var(--stc-pc-light-blue),
+            3px 6px 0 var(--stc-pc-light-blue),
+            6px 6px 0 var(--stc-pc-light-blue),
+            9px 6px 0 var(--stc-pc-light-blue),
+            0px 9px 0 var(--stc-pc-light-blue),
+            3px 9px 0 var(--stc-pc-light-blue),
+            6px 9px 0 var(--stc-pc-light-blue),
+            3px 12px 0 var(--stc-pc-light-blue);
+    }
+    50% {
+        opacity: 0.4;
+        box-shadow: 
+            0px 0px 0 var(--stc-pc-light-blue),
+            6px 0px 0 var(--stc-pc-light-blue),
+            -3px 3px 0 var(--stc-pc-light-blue),
+            0px 3px 0 var(--stc-pc-light-blue),
+            3px 3px 0 var(--stc-pc-light-blue),
+            6px 3px 0 var(--stc-pc-light-blue),
+            9px 3px 0 var(--stc-pc-light-blue),
+            -3px 6px 0 var(--stc-pc-light-blue),
+            0px 6px 0 var(--stc-pc-light-blue),
+            3px 6px 0 var(--stc-pc-light-blue),
+            6px 6px 0 var(--stc-pc-light-blue),
+            9px 6px 0 var(--stc-pc-light-blue),
+            0px 9px 0 var(--stc-pc-light-blue),
+            3px 9px 0 var(--stc-pc-light-blue),
+            6px 9px 0 var(--stc-pc-light-blue),
+            3px 12px 0 var(--stc-pc-light-blue);
+    }
+}
+
+/* =====================================================
+   픽셀 컴퓨터 (핑크)
+   ===================================================== */
+.stc-typing-pixelpc.stc-typing-pixelpc-pink {
+    --stc-pc-light-gray: #f5d6e0;
+    --stc-pc-dark-gray: #c27090;
+    --stc-pc-gray: #e8a8b8;
+    --stc-pc-dark-blue: #4a3545;
+    --stc-pc-light-blue: #ff69b4;
+}
+
+.stc-typing-pixelpc.stc-typing-pixelpc-pink .stc-pixel-textbox {
+    background: #c27090;
+    border-color: #e8a8b8;
+    box-shadow: 
+        2px 0 0 #f5d6e0,
+        -2px 0 0 #f5d6e0,
+        0 2px 0 #f5d6e0,
+        0 -2px 0 #f5d6e0;
+}
+
+.stc-typing-pixelpc.stc-typing-pixelpc-pink .stc-text {
+    color: #f5d6e0 !important;
+}
+
+/* =====================================================
+   픽셀 컴퓨터 (퍼플)
+   ===================================================== */
+.stc-typing-pixelpc.stc-typing-pixelpc-purple {
+    --stc-pc-light-gray: #e0d6f5;
+    --stc-pc-dark-gray: #6a5090;
+    --stc-pc-gray: #a890c8;
+    --stc-pc-dark-blue: #3a2850;
+    --stc-pc-light-blue: #b088e0;
+}
+
+.stc-typing-pixelpc.stc-typing-pixelpc-purple .stc-pixel-textbox {
+    background: #6a5090;
+    border-color: #a890c8;
+    box-shadow: 
+        2px 0 0 #e0d6f5,
+        -2px 0 0 #e0d6f5,
+        0 2px 0 #e0d6f5,
+        0 -2px 0 #e0d6f5;
+}
+
+.stc-typing-pixelpc.stc-typing-pixelpc-purple .stc-text {
+    color: #e0d6f5 !important;
+}
+
+/* =====================================================
+   픽셀 컴퓨터 (블랙)
+   ===================================================== */
+.stc-typing-pixelpc.stc-typing-pixelpc-black {
+    --stc-pc-light-gray: #505050;
+    --stc-pc-dark-gray: #1a1a1a;
+    --stc-pc-gray: #353535;
+    --stc-pc-dark-blue: #0a0a0a;
+    --stc-pc-light-blue: #ffffff;
+}
+
+.stc-typing-pixelpc.stc-typing-pixelpc-black .stc-pixel-textbox {
+    background: #1a1a1a;
+    border-color: #353535;
+    box-shadow: 
+        2px 0 0 #505050,
+        -2px 0 0 #505050,
+        0 2px 0 #505050,
+        0 -2px 0 #505050;
+}
+
+.stc-typing-pixelpc.stc-typing-pixelpc-black .stc-text {
+    color: #e0e0e0 !important;
+}
