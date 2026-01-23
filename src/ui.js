@@ -3,17 +3,21 @@ import { state } from "./state.js";
 import { saveSettings, fileToBase64, updateSetting } from "./storage.js";
 
 /**
- * 타자기 효과 텍스트 생성 (유니코드 지원)
+ * 타자기 효과 텍스트 생성 (유니코드 지원, 무한 반복)
  */
 function createTypewriterText(text) {
     const parts = text.split(/<br\s*\/?>/gi);
     let charIndex = 0;
     
+    const totalChars = parts.reduce((sum, part) => sum + [...part].length, 0);
+    const charDuration = 80;
+    const totalDuration = Math.max(totalChars * charDuration + 1500, 3000);
+    
     return parts.map((part) => {
         const chars = [...part].map((char) => {
-            const delay = charIndex * 80;
+            const delay = charIndex * charDuration;
             charIndex++;
-            return `<span class="stc-typewriter-char" style="animation-delay:${delay}ms">${char === ' ' ? '&nbsp;' : char}</span>`;
+            return `<span class="stc-typewriter-char" style="animation-delay:${delay}ms;animation-duration:${totalDuration}ms">${char === ' ' ? '&nbsp;' : char}</span>`;
         }).join('');
         return chars;
     }).join('<br>');

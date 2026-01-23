@@ -459,7 +459,7 @@
 }
 
 /* =====================================================
-   타자기 효과 애니메이션
+   타자기 효과 애니메이션 (무한 반복)
    ===================================================== */
 .stc-typewriter {
     overflow: hidden;
@@ -468,13 +468,14 @@
 
 .stc-typewriter-char {
     display: inline-block;
-    opacity: 0;
-    animation: stc-typewriter-appear 0.1s forwards;
+    animation: stc-typewriter-loop 3s infinite;
 }
 
-@keyframes stc-typewriter-appear {
-    from { opacity: 0; transform: translateY(2px); }
-    to { opacity: 1; transform: translateY(0); }
+/* 타자기 효과: 나타남 -> 유지 -> 사라짐 -> 대기 반복 */
+@keyframes stc-typewriter-loop {
+    0%, 5% { opacity: 0; transform: translateY(2px); }
+    10%, 70% { opacity: 1; transform: translateY(0); }
+    80%, 100% { opacity: 0; transform: translateY(-2px); }
 }
 
 /* =====================================================

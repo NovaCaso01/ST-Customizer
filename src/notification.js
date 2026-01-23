@@ -1,11 +1,15 @@
 import { eventSource, event_types } from "../../../../../script.js";
 import { state } from "./state.js";
 
+// AI 응답 생성 중인지 추적
+let isGenerating = false;
+
 /**
  * 알림음 모듈 초기화
- * - MESSAGE_RECEIVED 이벤트 사용 (ST 기본 로직과 동일)
- * - 실제로 새 메시지가 채팅에 추가될 때만 발생
- * - Stop 버튼, 에러, quiet 모드에서는 발생 안 함
+ * - MESSAGE_RECEIVED + isGenerating 플래그 조합 사용
+ * - 실제 AI 생성 후 메시지가 도착했을 때만 알림
+ * - 채팅 로딩, 채팅방 진입 시에는 isGenerating이 false라 발생 안 함
+ * - Stop 버튼 시에는 MESSAGE_RECEIVED가 발생하지 않음
  */
 export function initNotificationSound() {
     // 탭 가시성 추적
@@ -16,8 +20,26 @@ export function initNotificationSound() {
     // 커스텀 오디오 요소 생성
     createAudioElement();
 
-    // MESSAGE_RECEIVED: 실제로 새 메시지가 추가될 때만 발생
-    // (Stop 버튼, 에러, quiet 모드에서는 발생 안 함)
+    // GENERATION_STARTED: 생성 시작 시 플래그 설정
+    eventSource.on(event_types.GENERATION_STARTED, (type, options, dryRun) => {
+        // dryRun이 아닌 실제 생성일 때만
+        if (dryRun !== true) {
+            // quiet, impersonate 타입 제외
+            const noNotifyTypes = ["quiet", "impersonate"];
+            if (typeof type === "string" && noNotifyTypes.includes(type)) {
+                return;
+            }
+            isGenerating = true;
+        }
+    });
+
+    // GENERATION_STOPPED: Stop 버튼 눌렀을 때 플래그 리셋
+    eventSource.on(event_types.GENERATION_STOPPED, () => {
+        isGenerating = false;
+    });
+
+    // MESSAGE_RECEIVED: 메시지가 실제로 채팅에 추가될 때
+    // isGenerating이 true일 때만 알림 (채팅 로딩 시에는 false)
     eventSource.on(event_types.MESSAGE_RECEIVED, onMessageReceived);
 
     // 이벤트 리스너
@@ -48,9 +70,17 @@ function createAudioElement() {
 
 /**
  * 메시지 수신 핸들러
- * MESSAGE_RECEIVED는 실제로 새 메시지가 추가될 때만 발생
+ * MESSAGE_RECEIVED는 메시지가 채팅에 추가될 때 발생
+ * isGenerating이 true일 때만 알림 재생 (채팅 로딩 시에는 false)
+ * Stop 버튼 시에는 MESSAGE_RECEIVED가 발생하지 않아서 알림 안 함
  */
-function onMessageReceived() {
+function onMessageReceived(messageIndex) {
+    // 실제로 생성 중이었을 때만 알림
+    if (!isGenerating) return;
+    
+    // 플래그 리셋
+    isGenerating = false;
+    
     const settings = state.settings.notification;
 
     if (!settings.enabled) return;

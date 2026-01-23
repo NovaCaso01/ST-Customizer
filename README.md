@@ -66,4 +66,8 @@ git clone https://github.com/NovaCaso01/ST-Customizer.git
 
 ## 📜 라이선스
 
-깡갤내자유사용
+MIT License
+
+## 👤 제작
+
+NovaCaso01

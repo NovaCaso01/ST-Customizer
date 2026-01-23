@@ -225,19 +225,24 @@ function getDesignContent(style, text) {
 }
 
 /**
- * 타자기 효과 텍스트 생성 (<br> 태그 보존, 유니코드 지원)
+ * 타자기 효과 텍스트 생성 (<br> 태그 보존, 유니코드 지원, 무한 반복)
  */
 function createTypewriterText(text) {
     // <br> 태그를 기준으로 분리
     const parts = text.split(/<br\s*\/?>/gi);
     let charIndex = 0;
     
+    // 전체 글자 수 계산 (딜레이 계산용)
+    const totalChars = parts.reduce((sum, part) => sum + [...part].length, 0);
+    const charDuration = 80; // 각 글자당 80ms
+    const totalDuration = Math.max(totalChars * charDuration + 1500, 3000); // 최소 3초, 글자 표시 후 1.5초 유지
+    
     return parts.map((part) => {
-        // 유니코드 문자를 제대로 분리하기 위해 Array.from 또는 스프레드 연산자 사용
+        // 유니코드 문자를 제대로 분리하기 위해 스프레드 연산자 사용
         const chars = [...part].map((char) => {
-            const delay = charIndex * 80;
+            const delay = charIndex * charDuration;
             charIndex++;
-            return `<span class="stc-typewriter-char" style="animation-delay:${delay}ms">${char === ' ' ? '&nbsp;' : char}</span>`;
+            return `<span class="stc-typewriter-char" style="animation-delay:${delay}ms;animation-duration:${totalDuration}ms">${char === ' ' ? '&nbsp;' : char}</span>`;
         }).join('');
         return chars;
     }).join('<br>');
@@ -378,30 +383,60 @@ function showTypingIndicator(type, options, dryRun) {
 
     // 공식 ST Extension-TypingIndicator 방식: 채팅 끝에 appendChild
     if (chat) {
-        // 새로 send한 경우 유저 메시지가 DOM에 추가되기를 기다림
-        setTimeout(() => {
-            // 이미 다른 인디케이터가 추가되었으면 무시
-            if (document.getElementById("stc_typing_indicator")) {
+        // MutationObserver로 유저 메시지가 DOM에 추가될 때까지 대기
+        appendIndicatorWhenReady(chat, typingIndicator);
+    }
+}
+
+/**
+ * 유저 메시지가 DOM에 추가된 후 인디케이터를 맨 아래에 추가
+ * 새 메시지가 추가되면 기다리고, 아니면 바로 추가
+ */
+function appendIndicatorWhenReady(chat, typingIndicator) {
+    const tryAppend = () => {
+        // 이미 다른 인디케이터가 추가되었으면 무시
+        if (document.getElementById("stc_typing_indicator")) {
+            return;
+        }
+        
+        // 스크롤 상태 확인 (추가 전)
+        const wasChatScrolledDown = Math.ceil(chat.scrollTop + chat.clientHeight) >= chat.scrollHeight - 50;
+        
+        chat.appendChild(typingIndicator);
+        $(typingIndicator).show();
+        
+        // 스크롤이 맨 아래였으면 인디케이터가 보이도록 스크롤
+        if (wasChatScrolledDown) {
+            requestAnimationFrame(() => {
+                chat.scrollTop = chat.scrollHeight;
+                scrollChatToBottom();
+            });
+        }
+    };
+    
+    // MutationObserver로 채팅에 새 메시지가 추가되는지 감지
+    let messageAdded = false;
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                // 새 메시지가 추가됨 - 잠시 후 인디케이터 추가
+                messageAdded = true;
+                observer.disconnect();
+                setTimeout(tryAppend, 50);
                 return;
             }
-            
-            // 스크롤 상태 확인 (추가 전)
-            const wasChatScrolledDown = Math.ceil(chat.scrollTop + chat.clientHeight) >= chat.scrollHeight - 50;
-            
-            chat.appendChild(typingIndicator);
-            $(typingIndicator).show();
-            
-            // 스크롤이 맨 아래였으면 인디케이터가 보이도록 스크롤
-            if (wasChatScrolledDown) {
-                // 여러 방법으로 스크롤 시도 (모바일 호환성)
-                requestAnimationFrame(() => {
-                    chat.scrollTop = chat.scrollHeight;
-                    // scrollChatToBottom도 호출 (ST 내장 함수)
-                    scrollChatToBottom();
-                });
-            }
-        }, 100);
-    }
+        }
+    });
+    
+    observer.observe(chat, { childList: true });
+    
+    // 300ms 후에도 메시지가 안 오면 그냥 바로 추가 (응답 버튼 등)
+    setTimeout(() => {
+        if (!messageAdded && !document.getElementById("stc_typing_indicator")) {
+            observer.disconnect();
+            tryAppend();
+        }
+    }, 300);
 }
 
 /**
