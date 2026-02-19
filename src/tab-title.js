@@ -30,10 +30,3 @@ function applyTabTitle() {
 
     document.title = settings.customTitle || "SillyTavern";
 }
-
-/**
- * 타이틀 강제 업데이트 (외부 호출용)
- */
-export function forceUpdateTitle() {
-    applyTabTitle();
-}

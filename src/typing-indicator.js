@@ -272,9 +272,9 @@ function getCustomDesignContent() {
         ? `<img src="${imageData}" class="stc-gif-outside" alt="custom" style="width:${imageSize}px !important;height:${imageSize}px !important;">`
         : "";
     
-    // 이미지가 있고 타이핑 효과가 켜져있을 때만 적용
-    const textHtml = (hasImage && typewriterEnabled) ? createTypewriterText(text) : text;
-    const textClass = (hasImage && typewriterEnabled) ? "stc-text stc-typewriter" : "stc-text";
+    // 타이핑 효과가 켜져있으면 적용
+    const textHtml = typewriterEnabled ? createTypewriterText(text) : text;
+    const textClass = typewriterEnabled ? "stc-text stc-typewriter" : "stc-text";
     
     return `
         <div class="stc-typing-custom">
@@ -332,7 +332,14 @@ function updateIndicatorContent(element) {
     element.setAttribute("data-style", style);
     
     // 폰트 적용 - !important로 강제 적용
-    const fontFamily = getFontFamily();
+    // 커스텀 스타일이면 커스텀 폰트 사용
+    let fontFamily;
+    if (style === "custom") {
+        const customFontId = state.settings?.customIndicator?.fontFamily || "default";
+        fontFamily = customFontId === "default" ? "inherit" : `'${customFontId}', sans-serif`;
+    } else {
+        fontFamily = getFontFamily();
+    }
     // .stc-text와 타이핑 효과의 .stc-typewriter-char 모두에 적용
     const textElements = element.querySelectorAll(".stc-text, .stc-typewriter-char");
     textElements.forEach(el => {
@@ -449,9 +456,3 @@ function hideTypingIndicator() {
     }
 }
 
-/**
- * 현재 타이핑 텍스트 가져오기 (외부용)
- */
-export function getCurrentTypingText() {
-    return getCustomText();
-}

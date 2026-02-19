@@ -108,25 +108,45 @@
     font-display: swap;
 }
 
-/* 기본 변수 - 라이트 테마 */
-:root {
-    --stc-bg: #f8f8f8;
+
+/* =====================================================
+   기본 변수 - 라벤더 테마 (SaiPet inspired)
+   확장 전용 스코프: --stc- 프리픽스로 ST 테마와 충돌 방지
+   ===================================================== */
+#st-customizer-settings {
+    --stc-bg: #f5f3fa;
     --stc-bg-light: #ffffff;
-    --stc-bg-dark: #eeeeee;
-    --stc-border: #d0d0d0;
-    --stc-text: #333333;
-    --stc-text-muted: #666666;
-    --stc-accent: #505050;
-    --stc-hover: #e8e8e8;
-    --stc-radius: 6px;
+    --stc-bg-dark: #eeeaf5;
+    --stc-border: #ddd8ec;
+    --stc-text: #2d2b3a;
+    --stc-text-muted: #8a85a0;
+    --stc-accent: #9b8ec4;
+    --stc-accent-hover: #8a7bb5;
+    --stc-accent-light: #ece8f6;
+    --stc-hover: #f0ecf7;
+    --stc-radius: 10px;
+    --stc-radius-lg: 14px;
+    --stc-shadow: 0 2px 12px rgba(100, 80, 160, 0.08);
+    --stc-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* =====================================================
    설정 패널 UI
    ===================================================== */
 
+/* ── 격리 레이어: ST 테마 스타일 차단 ── */
 #st-customizer-settings {
-    /* 폰트 강제 금지 - 상속 사용 */
+    /* CSS 변수만 상속, 나머지 ST 테마 스타일은 여기서 재정의 */
+    color: var(--stc-text) !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+/* ST 테마의 .text_pole 클래스 스타일 완전 차단 */
+#st-customizer-settings .text_pole {
+    all: unset !important;
+    display: block !important;
+    box-sizing: border-box !important;
 }
 
 /* FontAwesome 아이콘 및 미리보기 영역 제외하고 폰트 상속 */
@@ -134,27 +154,38 @@
     font-family: inherit !important;
 }
 
-/* 섹션 */
+/* =====================================================
+   섹션 (카드 스타일)
+   ===================================================== */
 #st-customizer-settings .stc-section {
-    margin-bottom: 12px;
-    padding: 14px;
-    background: var(--stc-bg);
-    border: 1px solid var(--stc-border);
-    border-radius: var(--stc-radius);
+    margin-bottom: 14px;
+    padding: 18px;
+    background: var(--stc-bg-light);
+    border: 1px solid rgba(155, 142, 196, 0.15);
+    border-radius: var(--stc-radius-lg);
+    box-shadow: var(--stc-shadow);
+    transition: box-shadow var(--stc-transition), border-color var(--stc-transition);
+}
+
+#st-customizer-settings .stc-section:hover {
+    box-shadow: 0 4px 20px rgba(100, 80, 160, 0.12);
+    border-color: rgba(155, 142, 196, 0.25);
 }
 
 /* 섹션 헤더 */
 #st-customizer-settings .stc-section h5 {
-    margin: 0 0 12px 0;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--stc-border);
+    margin: 0 0 14px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--stc-accent-light);
     color: var(--stc-text);
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.3px;
 }
 
-/* 설정 행 */
+/* =====================================================
+   설정 행
+   ===================================================== */
 #st-customizer-settings .stc-row {
     display: flex;
     align-items: center;
@@ -169,98 +200,205 @@
     font-weight: 500;
 }
 
-/* 텍스트 인풋 */
+/* =====================================================
+   텍스트 인풋 / 넘버 인풋 / 셀렉트 (ST 테마 격리)
+   ===================================================== */
 #st-customizer-settings .stc-row input[type="text"],
 #st-customizer-settings .stc-row input[type="number"],
-#st-customizer-settings .stc-row select {
-    flex: 1;
-    max-width: 220px;
-    padding: 8px 12px;
-    background: var(--stc-bg-light);
-    border: 1px solid var(--stc-border);
-    border-radius: var(--stc-radius);
-    color: var(--stc-text);
-    font-size: 12px;
-    outline: none;
-    transition: border-color 0.2s;
+#st-customizer-settings .stc-row select,
+#st-customizer-settings .stc-row input[type="text"].text_pole,
+#st-customizer-settings .stc-row select.text_pole {
+    flex: 1 !important;
+    max-width: 220px !important;
+    padding: 9px 14px !important;
+    background: var(--stc-bg) !important;
+    border: 1.5px solid var(--stc-border) !important;
+    border-radius: 8px !important;
+    color: var(--stc-text) !important;
+    font-size: 12px !important;
+    outline: none !important;
+    box-shadow: inset 0 1px 3px rgba(100, 80, 160, 0.06) !important;
+    transition: border-color var(--stc-transition), box-shadow var(--stc-transition), background var(--stc-transition) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    display: block !important;
+    -webkit-appearance: none !important;
+}
+
+#st-customizer-settings .stc-row input[type="text"]:hover,
+#st-customizer-settings .stc-row input[type="number"]:hover,
+#st-customizer-settings .stc-row select:hover {
+    border-color: rgba(155, 142, 196, 0.5) !important;
+    background: var(--stc-bg-light) !important;
 }
 
 #st-customizer-settings .stc-row input[type="text"]:focus,
+#st-customizer-settings .stc-row input[type="number"]:focus,
 #st-customizer-settings .stc-row select:focus {
-    border-color: var(--stc-accent);
+    border-color: var(--stc-accent) !important;
+    background: var(--stc-bg-light) !important;
+    box-shadow: 0 0 0 3px rgba(155, 142, 196, 0.12), inset 0 1px 2px rgba(100, 80, 160, 0.04) !important;
 }
 
-/* 셀렉트 */
-#st-customizer-settings .stc-row select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 30px;
+/* 셀렉트 (드롭다운) */
+#st-customizer-settings .stc-row select,
+#st-customizer-settings .stc-row select.text_pole {
+    cursor: pointer !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239b8ec4' d='M5 7L1.5 3h7z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    padding-right: 32px !important;
+}
+
+/* 셀렉트 옵션 스타일 */
+#st-customizer-settings .stc-row select option {
+    background: var(--stc-bg-light) !important;
+    color: var(--stc-text) !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+}
+
+/* 텍스트에리어 */
+#st-customizer-settings textarea,
+#st-customizer-settings textarea.text_pole {
+    flex: 1 !important;
+    width: 100% !important;
+    max-width: 220px !important;
+    padding: 9px 14px !important;
+    background: var(--stc-bg) !important;
+    border: 1.5px solid var(--stc-border) !important;
+    border-radius: 8px !important;
+    color: var(--stc-text) !important;
+    font-size: 12px !important;
+    outline: none !important;
+    resize: vertical !important;
+    box-shadow: inset 0 1px 3px rgba(100, 80, 160, 0.06) !important;
+    transition: border-color var(--stc-transition), box-shadow var(--stc-transition), background var(--stc-transition) !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+#st-customizer-settings textarea:hover,
+#st-customizer-settings textarea.text_pole:hover {
+    border-color: rgba(155, 142, 196, 0.5) !important;
+    background: var(--stc-bg-light) !important;
+}
+
+#st-customizer-settings textarea:focus,
+#st-customizer-settings textarea.text_pole:focus {
+    border-color: var(--stc-accent) !important;
+    background: var(--stc-bg-light) !important;
+    box-shadow: 0 0 0 3px rgba(155, 142, 196, 0.12), inset 0 1px 2px rgba(100, 80, 160, 0.04) !important;
+}
+
+/* placeholder 스타일 */
+#st-customizer-settings input::placeholder,
+#st-customizer-settings textarea::placeholder {
+    color: var(--stc-text-muted) !important;
+    opacity: 0.6 !important;
+    font-size: 11px !important;
 }
 
 /* =====================================================
-   ON/OFF 버튼 (체크박스 대체)
+   ON/OFF 토글 스위치 (필 타입)
    ===================================================== */
 #st-customizer-settings .stc-row input[type="checkbox"] {
     display: none !important;
 }
 
 #st-customizer-settings .stc-onoff-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 50px;
-    padding: 5px 12px;
-    border-radius: var(--stc-radius);
-    font-size: 11px;
-    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 22px;
+    min-width: 42px;
+    padding: 0;
+    border-radius: 11px;
+    border: none;
+    background: var(--stc-border);
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid var(--stc-border);
-    background: var(--stc-bg-light);
-    color: var(--stc-text-muted);
+    transition: background var(--stc-transition);
+    vertical-align: middle;
+    font-size: 0;
+    line-height: 22px;
 }
 
 #st-customizer-settings .stc-onoff-btn::before {
-    content: 'OFF';
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--stc-bg-light);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform var(--stc-transition);
 }
 
 #st-customizer-settings input[type="checkbox"]:checked + .stc-onoff-btn {
     background: var(--stc-accent);
-    border-color: var(--stc-accent);
-    color: white;
+    border-color: transparent;
+    color: transparent;
 }
 
 #st-customizer-settings input[type="checkbox"]:checked + .stc-onoff-btn::before {
-    content: 'ON';
+    content: '';
+    transform: translateX(20px);
 }
 
-/* 타이핑 효과 토글 버튼 */
+/* =====================================================
+   타이핑 효과 토글 버튼
+   ===================================================== */
 #st-customizer-settings .stc-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 50px;
-    padding: 5px 12px;
-    border-radius: var(--stc-radius);
-    font-size: 11px;
-    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 22px;
+    min-width: 42px;
+    padding: 0;
+    border-radius: 11px;
+    border: none;
+    background: var(--stc-border);
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid var(--stc-border);
+    transition: background var(--stc-transition);
+    vertical-align: middle;
+    font-size: 0;
+    line-height: 22px;
+}
+
+#st-customizer-settings .stc-toggle-btn::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
     background: var(--stc-bg-light);
-    color: var(--stc-text-muted);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform var(--stc-transition);
 }
 
 #st-customizer-settings .stc-toggle-btn.active {
     background: var(--stc-accent);
-    border-color: var(--stc-accent);
-    color: white;
 }
 
-/* 레인지 슬라이더 */
+#st-customizer-settings .stc-toggle-btn.active::before {
+    transform: translateX(20px);
+}
+
+/* =====================================================
+   레인지 슬라이더
+   ===================================================== */
 #st-customizer-settings .stc-row input[type="range"] {
     flex: 1;
     max-width: 120px;
@@ -284,8 +422,13 @@
     border-radius: 50% !important;
     cursor: pointer !important;
     border: 2px solid white !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 1px 4px rgba(155, 142, 196, 0.4) !important;
     margin-top: -5px !important;
+    transition: box-shadow 0.2s !important;
+}
+
+#st-customizer-settings .stc-row input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow: 0 2px 8px rgba(155, 142, 196, 0.5) !important;
 }
 
 #st-customizer-settings .stc-row input[type="range"]::-moz-range-thumb {
@@ -295,7 +438,7 @@
     border-radius: 50% !important;
     cursor: pointer !important;
     border: 2px solid white !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 1px 4px rgba(155, 142, 196, 0.4) !important;
 }
 
 #st-customizer-settings .stc-row input[type="range"]::-webkit-slider-runnable-track {
@@ -304,15 +447,33 @@
     border-radius: 3px !important;
 }
 
-/* 컬러 인풋 */
+/* =====================================================
+   컬러 인풋 (ST 테마 격리)
+   ===================================================== */
 #st-customizer-settings input[type="color"] {
-    width: 36px;
-    height: 28px;
-    padding: 2px;
-    background: var(--stc-bg-light);
-    border: 1px solid var(--stc-border);
-    border-radius: 4px;
-    cursor: pointer;
+    width: 36px !important;
+    height: 28px !important;
+    padding: 2px !important;
+    background: var(--stc-bg-light) !important;
+    border: 1.5px solid var(--stc-border) !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: border-color var(--stc-transition) !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+#st-customizer-settings input[type="color"]:hover {
+    border-color: var(--stc-accent) !important;
+}
+
+#st-customizer-settings input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 2px !important;
+}
+
+#st-customizer-settings input[type="color"]::-webkit-color-swatch {
+    border: none !important;
+    border-radius: 3px !important;
 }
 
 /* 컬러 라벨 */
@@ -323,65 +484,87 @@
 }
 
 /* =====================================================
-   버튼 스타일
+   버튼 스타일 (ST .menu_button 격리)
    ===================================================== */
 #st-customizer-settings .stc-file-btn,
 #st-customizer-settings .stc-reset-btn,
-#st-customizer-settings .stc-test-btn {
-    display: inline-flex;
+#st-customizer-settings .stc-test-btn,
+#st-customizer-settings .stc-file-btn.menu_button,
+#st-customizer-settings .stc-reset-btn.menu_button,
+#st-customizer-settings .stc-test-btn.menu_button {
+    display: inline-flex !important;
     flex-direction: row !important;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 6px 14px;
-    min-width: auto;
-    height: auto;
-    background: var(--stc-bg-light);
-    border: 1px solid var(--stc-border);
-    border-radius: var(--stc-radius);
-    color: var(--stc-text);
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.2s;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 7px 16px !important;
+    min-width: auto !important;
+    height: auto !important;
+    background: var(--stc-bg-light) !important;
+    border: 1.5px solid var(--stc-border) !important;
+    border-radius: 8px !important;
+    color: var(--stc-text) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    transition: all var(--stc-transition) !important;
+    box-shadow: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
 }
 
 #st-customizer-settings .stc-file-btn:hover,
+#st-customizer-settings .stc-test-btn:hover,
+#st-customizer-settings .stc-file-btn.menu_button:hover,
+#st-customizer-settings .stc-test-btn.menu_button:hover {
+    background: var(--stc-accent-light) !important;
+    border-color: var(--stc-accent) !important;
+    color: var(--stc-accent-hover) !important;
+}
+
+#st-customizer-settings .stc-reset-btn,
+#st-customizer-settings .stc-reset-btn.menu_button {
+    color: var(--stc-text-muted) !important;
+}
+
 #st-customizer-settings .stc-reset-btn:hover,
-#st-customizer-settings .stc-test-btn:hover {
-    background: var(--stc-hover);
-    border-color: var(--stc-accent);
+#st-customizer-settings .stc-reset-btn.menu_button:hover {
+    background: #fef0f0 !important;
+    border-color: #e8a8a8 !important;
+    color: #c06060 !important;
 }
 
-#st-customizer-settings .stc-reset-btn {
-    color: var(--stc-text-muted);
-}
-
-/* 정보 박스 */
+/* =====================================================
+   정보 박스
+   ===================================================== */
 #st-customizer-settings .stc-info {
-    padding: 8px 12px;
-    margin: 8px 0;
-    background: var(--stc-bg-dark);
-    border-radius: var(--stc-radius);
-    border-left: 2px solid var(--stc-border);
+    padding: 10px 14px;
+    margin: 10px 0;
+    background: var(--stc-accent-light);
+    border-radius: 8px;
+    border-left: 3px solid var(--stc-accent);
 }
 
 #st-customizer-settings .stc-info small {
     color: var(--stc-text-muted);
     font-size: 11px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
-/* 미리보기 박스 */
+/* =====================================================
+   미리보기 박스
+   ===================================================== */
 #st-customizer-settings .stc-preview {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 12px;
-    margin: 8px 0;
+    padding: 12px 14px;
+    margin: 10px 0;
     background: var(--stc-bg-dark);
-    border: 1px solid var(--stc-border);
+    border: 1px solid rgba(155, 142, 196, 0.18);
     border-radius: var(--stc-radius);
 }
 
@@ -389,7 +572,7 @@
     width: 32px;
     height: 32px;
     object-fit: contain;
-    border-radius: 4px;
+    border-radius: 6px;
     background: transparent;
 }
 
@@ -398,21 +581,42 @@
     font-size: 12px;
 }
 
-/* 서브섹션 */
+/* =====================================================
+   서브섹션
+   ===================================================== */
 #st-customizer-settings .stc-subsection {
     margin-top: 12px;
-    padding: 12px;
+    padding: 14px;
     background: var(--stc-bg-dark);
     border-radius: var(--stc-radius);
-    border: 1px solid var(--stc-border);
+    border: 1px solid rgba(155, 142, 196, 0.18);
 }
 
-/* 타이핑 미리보기 박스 */
+/* =====================================================
+   상세설정 접기/펼치기 (typing indicator)
+   ===================================================== */
+#st-customizer-settings .stc-typing-details {
+    overflow: hidden;
+    max-height: 2000px;
+    opacity: 1;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin 0.3s ease;
+}
+
+#st-customizer-settings .stc-typing-details.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+}
+
+/* =====================================================
+   타이핑 미리보기 박스
+   ===================================================== */
 #st-customizer-settings .stc-typing-preview-box {
     flex: 1;
     padding: 12px 16px;
     background: var(--stc-bg-dark);
-    border: 1px solid var(--stc-border);
+    border: 1px solid rgba(155, 142, 196, 0.18);
     border-radius: var(--stc-radius);
     min-height: 40px;
     display: flex;

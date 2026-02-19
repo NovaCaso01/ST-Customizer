@@ -1,4 +1,4 @@
-import { EXTENSION_NAME, ICONS, TYPING_DESIGNS, TYPING_GIFS, FAVICON_PRESETS, TYPING_FONTS } from "./constants.js";
+import { EXTENSION_NAME, ICONS, TYPING_DESIGNS, TYPING_GIFS, FAVICON_PRESETS, TYPING_FONTS, NOTIFICATION_PRESETS, TAB_TITLE_PRESETS } from "./constants.js";
 import { state } from "./state.js";
 import { saveSettings, fileToBase64, updateSetting } from "./storage.js";
 
@@ -40,6 +40,16 @@ export async function createUI() {
     // 파비콘 프리셋 옵션 HTML 생성
     const faviconPresetOptions = FAVICON_PRESETS.map(p => 
         `<option value="${p.id}">${p.name}</option>`
+    ).join("");
+
+    // 알림음 프리셋 옵션 HTML 생성
+    const notificationPresetOptions = NOTIFICATION_PRESETS.map(p => 
+        `<option value="${p.id}">${p.name}</option>`
+    ).join("");
+
+    // 탭 타이틀 프리셋 옵션 HTML 생성
+    const tabTitlePresetOptions = TAB_TITLE_PRESETS.map(p => 
+        `<option value="${p.id}">${p.title ? p.title : p.name}</option>`
     ).join("");
 
     const settingsHtml = `
@@ -86,6 +96,12 @@ export async function createUI() {
                         <label class="stc-onoff-btn" for="stc-tabtitle-enabled"></label>
                     </div>
                     <div class="stc-row">
+                        <label>프리셋</label>
+                        <select id="stc-tabtitle-preset" class="text_pole">
+                            ${tabTitlePresetOptions}
+                        </select>
+                    </div>
+                    <div class="stc-row" id="stc-tabtitle-custom-row">
                         <label>커스텀 타이틀</label>
                         <input type="text" id="stc-tabtitle-text" class="text_pole" placeholder="SillyTavern">
                     </div>
@@ -106,6 +122,12 @@ export async function createUI() {
                         <label>커스텀 사운드</label>
                         <input type="checkbox" id="stc-notification-custom-toggle">
                         <label class="stc-onoff-btn" for="stc-notification-custom-toggle"></label>
+                    </div>
+                    <div class="stc-row" id="stc-notification-preset-row" style="display:none;">
+                        <label>프리셋</label>
+                        <select id="stc-notification-preset" class="text_pole">
+                            ${notificationPresetOptions}
+                        </select>
                     </div>
                     <div class="stc-row" id="stc-notification-upload-row" style="display:none;">
                         <label>파일 업로드</label>
@@ -155,6 +177,7 @@ export async function createUI() {
                         <input type="checkbox" id="stc-typing-enabled">
                         <label class="stc-onoff-btn" for="stc-typing-enabled"></label>
                     </div>
+                    <div class="stc-typing-details">
                     <div class="stc-row">
                         <label>디자인 스타일</label>
                         <select id="stc-typing-design" class="text_pole">
@@ -206,6 +229,16 @@ export async function createUI() {
                                 <label>표시 텍스트</label>
                                 <textarea id="stc-custom-text" class="text_pole" rows="3" placeholder="{{char}} 입력중..."></textarea>
                             </div>
+                            <div class="stc-row">
+                                <label>폰트</label>
+                                <select id="stc-custom-font" class="text_pole">
+                                    ${typingFontOptions}
+                                </select>
+                            </div>
+                            <div class="stc-row">
+                                <label>타이핑 효과</label>
+                                <button type="button" id="stc-custom-typewriter-effect" class="stc-toggle-btn">ON</button>
+                            </div>
                         </div>
                     </div>
                     
@@ -234,6 +267,7 @@ export async function createUI() {
                         <span class="stc-preview-text">미리보기:</span>
                         <div id="stc-typing-preview-box" class="stc-typing-preview-box"></div>
                     </div>
+                    </div><!-- .stc-typing-details -->
                 </div>
 
             </div>
@@ -276,12 +310,21 @@ export function updateUI() {
 
     // 탭 타이틀
     $("#stc-tabtitle-enabled").prop("checked", s.tabTitle.enabled);
+    const tabTitlePresetId = s.tabTitle.presetId || "custom";
+    $("#stc-tabtitle-preset").val(tabTitlePresetId);
+    $("#stc-tabtitle-custom-row").toggle(tabTitlePresetId === "custom");
     $("#stc-tabtitle-text").val(s.tabTitle.customTitle);
 
     // 알림음
     $("#stc-notification-enabled").prop("checked", s.notification.enabled);
     $("#stc-notification-custom-toggle").prop("checked", s.notification.useCustomSound);
-    $("#stc-notification-upload-row").toggle(s.notification.useCustomSound);
+    
+    const notifPresetId = s.notification.presetId || "custom";
+    const isNotifCustom = notifPresetId === "custom";
+    $("#stc-notification-preset-row").toggle(s.notification.useCustomSound);
+    $("#stc-notification-preset").val(notifPresetId);
+    $("#stc-notification-upload-row").toggle(s.notification.useCustomSound && isNotifCustom);
+    
     $("#stc-notification-volume").val(s.notification.volume);
     $("#stc-notification-volume-label").text(Math.round(s.notification.volume * 100) + "%");
     $("#stc-notification-background").prop("checked", s.notification.playOnlyBackground);
@@ -299,6 +342,7 @@ export function updateUI() {
 
     // 타이핑 인디케이터
     $("#stc-typing-enabled").prop("checked", s.typingIndicator.enabled);
+    $(".stc-typing-details").toggleClass("collapsed", !s.typingIndicator.enabled);
     $("#stc-typing-design").val(s.typingIndicator.designStyle || "fade");
     $("#stc-typing-text").val(s.typingIndicator.customText || "{{char}} 입력중...");
     $("#stc-typing-font").val(s.typingIndicator.fontFamily || "default");
@@ -325,8 +369,14 @@ export function updateUI() {
         $("#stc-custom-text-color").val(s.customIndicator.textColor || "#6b4c5a");
         $("#stc-custom-text-color-label").text(s.customIndicator.textColor || "#6b4c5a");
         $("#stc-custom-text").val(s.customIndicator.customText || "{{char}} 입력중...");
+        $("#stc-custom-font").val(s.customIndicator.fontFamily || "default");
         $("#stc-custom-image-size").val(s.customIndicator.imageSize || 50);
         $("#stc-custom-image-size-label").text((s.customIndicator.imageSize || 50) + "px");
+        
+        // 커스텀 타이핑 효과 버튼 상태
+        const customTypewriterOn = s.typingIndicator.typewriterEffect !== false;
+        $("#stc-custom-typewriter-effect").text(customTypewriterOn ? "ON" : "OFF");
+        $("#stc-custom-typewriter-effect").toggleClass("active", customTypewriterOn);
         
         // 이미지 미리보기
         if (s.customIndicator.imageData && s.customIndicator.imageType !== "none") {
@@ -362,9 +412,11 @@ function updateTypingPreview() {
         const text = template.replace(/\{\{char\}\}/gi, "캐릭터").replace(/\n/g, '<br>');
         previewBox.innerHTML = getCustomPreviewContent(text);
         previewBox.setAttribute("data-style", "custom");
-        // 폰트 적용 - .stc-text와 .stc-typewriter-char 모두
+        // 커스텀 폰트 적용
+        const customFontId = customSettings.fontFamily || "default";
+        const customFontFamily = customFontId === "default" ? "inherit" : `'${customFontId}', sans-serif`;
         const textEls = previewBox.querySelectorAll(".stc-text, .stc-typewriter-char");
-        textEls.forEach(el => el.style.setProperty('font-family', fontFamily, 'important'));
+        textEls.forEach(el => el.style.setProperty('font-family', customFontFamily, 'important'));
         return;
     }
     
@@ -397,9 +449,9 @@ function getCustomPreviewContent(text) {
         ? `<img src="${imageData}" class="stc-gif-outside" alt="custom" style="width:${imageSize}px;height:${imageSize}px;object-fit:contain;">`
         : "";
     
-    // 이미지가 있고 타이핑 효과가 켜져있을 때만 적용
-    const textHtml = (hasImage && typewriterEnabled) ? createTypewriterText(text) : text;
-    const textClass = (hasImage && typewriterEnabled) ? "stc-text stc-typewriter" : "stc-text";
+    // 타이핑 효과가 켜져있으면 적용
+    const textHtml = typewriterEnabled ? createTypewriterText(text) : text;
+    const textClass = typewriterEnabled ? "stc-text stc-typewriter" : "stc-text";
     
     return `
         <div class="stc-typing-custom" style="display:flex;align-items:center;gap:10px;">
@@ -559,6 +611,25 @@ function bindEvents() {
         window.dispatchEvent(new CustomEvent("stc-tabtitle-update"));
     });
 
+    // 탭 타이틀 프리셋 선택
+    $("#stc-tabtitle-preset").on("change", function () {
+        const presetId = $(this).val();
+        const preset = TAB_TITLE_PRESETS.find(p => p.id === presetId);
+        
+        state.settings.tabTitle.presetId = presetId;
+        
+        if (preset && preset.title) {
+            state.settings.tabTitle.customTitle = preset.title;
+            $("#stc-tabtitle-text").val(preset.title);
+            $("#stc-tabtitle-custom-row").hide();
+        } else {
+            $("#stc-tabtitle-custom-row").show();
+        }
+        
+        saveSettings();
+        window.dispatchEvent(new CustomEvent("stc-tabtitle-update"));
+    });
+
     $("#stc-tabtitle-text").on("input", function () {
         updateSetting("tabTitle", "customTitle", $(this).val());
         window.dispatchEvent(new CustomEvent("stc-tabtitle-update"));
@@ -572,12 +643,48 @@ function bindEvents() {
     $("#stc-notification-custom-toggle").on("change", function () {
         const useCustom = $(this).prop("checked");
         updateSetting("notification", "useCustomSound", useCustom);
-        $("#stc-notification-upload-row").toggle(useCustom);
+        
+        const presetId = state.settings.notification.presetId || "custom";
+        const isCustom = presetId === "custom";
+        $("#stc-notification-preset-row").toggle(useCustom);
+        $("#stc-notification-upload-row").toggle(useCustom && isCustom);
+        
         if (!useCustom) {
             $("#stc-notification-preview").hide();
         } else if (state.settings.notification.customSound) {
             $("#stc-notification-preview").show();
         }
+        window.dispatchEvent(new CustomEvent("stc-notification-update"));
+    });
+
+    // 알림음 프리셋 선택
+    $("#stc-notification-preset").on("change", function () {
+        const presetId = $(this).val();
+        const preset = NOTIFICATION_PRESETS.find(p => p.id === presetId);
+        
+        state.settings.notification.presetId = presetId;
+        
+        if (preset && preset.url) {
+            // 프리셋 선택 시 URL을 customSound에 적용
+            state.settings.notification.customSound = preset.url;
+            state.settings.notification.soundName = preset.name;
+            saveSettings();
+            $("#stc-notification-preview").show();
+            $("#stc-notification-name").text(preset.name);
+            $("#stc-notification-upload-row").hide();
+        } else {
+            // Custom 선택 시 업로드 행 표시
+            $("#stc-notification-upload-row").show();
+            // 기존 프리셋 사운드 제거
+            const wasPreset = NOTIFICATION_PRESETS.find(p => p.id !== "custom" && p.url === state.settings.notification.customSound);
+            if (wasPreset) {
+                state.settings.notification.customSound = null;
+                state.settings.notification.soundName = "";
+                saveSettings();
+                $("#stc-notification-preview").hide();
+            }
+        }
+        
         window.dispatchEvent(new CustomEvent("stc-notification-update"));
     });
 
@@ -630,7 +737,9 @@ function bindEvents() {
 
     // 타이핑 인디케이터
     $("#stc-typing-enabled").on("change", function () {
-        updateSetting("typingIndicator", "enabled", $(this).prop("checked"));
+        const isEnabled = $(this).prop("checked");
+        updateSetting("typingIndicator", "enabled", isEnabled);
+        $(".stc-typing-details").toggleClass("collapsed", !isEnabled);
         window.dispatchEvent(new CustomEvent("stc-typing-update"));
     });
 
@@ -665,6 +774,9 @@ function bindEvents() {
         updateSetting("typingIndicator", "typewriterEffect", newState);
         $(this).text(newState ? "ON" : "OFF");
         $(this).toggleClass("active", newState);
+        // 커스텀 토글도 동기화
+        $("#stc-custom-typewriter-effect").text(newState ? "ON" : "OFF");
+        $("#stc-custom-typewriter-effect").toggleClass("active", newState);
         updateTypingPreview();
         window.dispatchEvent(new CustomEvent("stc-typing-update"));
     });
@@ -762,6 +874,27 @@ function bindEvents() {
     
     $("#stc-custom-text").on("input", function () {
         updateSetting("customIndicator", "customText", $(this).val());
+        updateTypingPreview();
+        window.dispatchEvent(new CustomEvent("stc-typing-update"));
+    });
+
+    // 커스텀 폰트 선택
+    $("#stc-custom-font").on("change", function () {
+        updateSetting("customIndicator", "fontFamily", $(this).val());
+        updateTypingPreview();
+        window.dispatchEvent(new CustomEvent("stc-typing-update"));
+    });
+
+    // 커스텀 타이핑 효과 토글
+    $("#stc-custom-typewriter-effect").on("click", function () {
+        const currentState = state.settings.typingIndicator.typewriterEffect !== false;
+        const newState = !currentState;
+        updateSetting("typingIndicator", "typewriterEffect", newState);
+        $(this).text(newState ? "ON" : "OFF");
+        $(this).toggleClass("active", newState);
+        // 기본 스타일 토글도 동기화
+        $("#stc-typewriter-effect").text(newState ? "ON" : "OFF");
+        $("#stc-typewriter-effect").toggleClass("active", newState);
         updateTypingPreview();
         window.dispatchEvent(new CustomEvent("stc-typing-update"));
     });

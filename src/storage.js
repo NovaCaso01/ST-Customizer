@@ -12,13 +12,6 @@ export function saveSettings() {
 }
 
 /**
- * 설정 로드
- */
-export function loadSettings() {
-    return extension_settings[EXTENSION_NAME];
-}
-
-/**
  * 파일을 Base64로 변환
  * @param {File} file 
  * @returns {Promise<string>}
