@@ -4,6 +4,7 @@ import { state } from "./state.js";
 const INPUT_SELECTOR = "#send_textarea";
 let originalPlaceholder = "";
 let observer = null;
+let isApplying = false; // applyPlaceholder 재진입 방지 플래그
 
 /**
  * 플레이스홀더 모듈 초기화
@@ -64,14 +65,21 @@ function setupObserver() {
     
     // textarea 속성 변경 감지
     const checkAndObserve = () => {
+        // 기존 옵저버 정리 후 새로 생성 (누적 방지)
+        if (observer) {
+            observer.disconnect();
+        }
+
         const textarea = document.querySelector(INPUT_SELECTOR);
         if (textarea) {
             observer = new MutationObserver((mutations) => {
+                if (isApplying) return; // applyPlaceholder 실행 중이면 무시
                 for (const mutation of mutations) {
                     if (mutation.type === "attributes" && mutation.attributeName === "placeholder") {
                         // ST가 placeholder를 변경했을 때 다시 적용
                         const settings = state.settings.placeholder;
-                        if (settings.enabled && textarea.placeholder !== settings.customText) {
+                        const effectiveText = settings.customText || "Type a message...";
+                        if (settings.enabled && textarea.placeholder !== effectiveText) {
                             applyPlaceholder();
                         }
                     }
@@ -94,16 +102,23 @@ function setupObserver() {
  * 플레이스홀더 적용
  */
 function applyPlaceholder() {
-    const settings = state.settings.placeholder;
-    const textarea = document.querySelector(INPUT_SELECTOR);
+    if (isApplying) return; // 재진입 방지
+    isApplying = true;
 
-    if (!textarea) return;
+    try {
+        const settings = state.settings.placeholder;
+        const textarea = document.querySelector(INPUT_SELECTOR);
 
-    if (!settings.enabled) {
-        // 비활성화 시 원본 복원
-        textarea.placeholder = originalPlaceholder;
-        return;
+        if (!textarea) return;
+
+        if (!settings.enabled) {
+            // 비활성화 시 원본 복원
+            textarea.placeholder = originalPlaceholder;
+            return;
+        }
+
+        textarea.placeholder = settings.customText || "Type a message...";
+    } finally {
+        isApplying = false;
     }
-
-    textarea.placeholder = settings.customText || "Type a message...";
 }
