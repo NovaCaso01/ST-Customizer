@@ -342,7 +342,11 @@ export function updateUI() {
 
     // 타이핑 인디케이터
     $("#stc-typing-enabled").prop("checked", s.typingIndicator.enabled);
-    $(".stc-typing-details").toggleClass("collapsed", !s.typingIndicator.enabled);
+    if (s.typingIndicator.enabled) {
+        $(".stc-typing-details").show();
+    } else {
+        $(".stc-typing-details").hide();
+    }
     $("#stc-typing-design").val(s.typingIndicator.designStyle || "fade");
     $("#stc-typing-text").val(s.typingIndicator.customText || "{{char}} 입력중...");
     $("#stc-typing-font").val(s.typingIndicator.fontFamily || "default");
@@ -739,7 +743,11 @@ function bindEvents() {
     $("#stc-typing-enabled").on("change", function () {
         const isEnabled = $(this).prop("checked");
         updateSetting("typingIndicator", "enabled", isEnabled);
-        $(".stc-typing-details").toggleClass("collapsed", !isEnabled);
+        if (isEnabled) {
+            $(".stc-typing-details").slideDown(300);
+        } else {
+            $(".stc-typing-details").slideUp(300);
+        }
         window.dispatchEvent(new CustomEvent("stc-typing-update"));
     });
 
